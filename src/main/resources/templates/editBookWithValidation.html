@@ -9,29 +9,36 @@
 <body class="ml-3">
 	<h1>Edit book</h1>
 	<!--html-template kirjan editoimista varten, id-asetetaan hidden tyyppiseksi, jotta käyttäjä ei sitä näe eikä pääse muokkaamaan-->
-	<div>
+	<div class="mb-2">
 		<form th:object="${book}" th:action="@{/saveEditedBook}" method="post">
             <input type="hidden" th:field="*{id}" />
+			<div>
 		  	<label for="author">Author</label>
-			<input type="text" id="author" th:field="*{author}" />
-            <td th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Error</td>
-			<div style="clear: both; display: block; height: 10px;"></div>
+				<input type="text" id="author" th:field="*{author}" />
+            		<div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="text-danger">Error</div>
+			</div>
+			<div class="mb-2">
 		  	<label for="title">Title</label>
-			<input type="text" id="title" th:field="*{title}" />
-            <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</td>
-			<div style="clear: both; display: block; height: 10px;"></div>
+				<input type="text" id="title" th:field="*{title}" />
+            		<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger">Error</div>
+			</div>
+			<div class="mb-2">
 		  	<label for="isbn">ISBN</label>
-			<input type="text" th:field="*{isbn}" />
-			<div style="clear: both; display: block; height: 10px;"></div>
+				<input type="text" th:field="*{isbn}" />
+			</div>
+			<div class="mb-2">
             <label for="publicationYear">Year</label>
-            <input type="text" id="publicationYear" th:field="*{publicationYear}" />
-            <td th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}">Error</td>
+            	<input type="text" id="publicationYear" th:field="*{publicationYear}" />
+            		<div th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}" class="text-danger">Error</div>
+			</div>
+			<div class="mb-2">
 			<label>Category</label>
 				<select th:field="*{kategoria}">
 					<option th:each="cat: ${categories}" th:value="${cat.categoryid}" th:text="${cat.name}">			
 					</option>
 				</select>
-			<input type="submit" value="Save"></input>
+			</div>
+			<input type="submit" value="Save" class="btn btn-success mb-2"></input>
 		</form>
 	</div>
 	<a href="/booklist" class="btn btn-info">Back to booklist</a>
