@@ -6,25 +6,34 @@
     <link rel="stylesheet" th:href="@{/css/css/bootstrap.min.css}" />
 	<link rel="stylesheet" th:href="@{/css/js/bootstrap.min.css}" />
 </head>
-<body>
+<body class="ml-3">
 	<h1>Edit book</h1>
 	<!--html-template kirjan editoimista varten, id-asetetaan hidden tyyppiseksi, jotta käyttäjä ei sitä näe eikä pääse muokkaamaan-->
 	<div>
-		<form th:object="${book}" th:action="@{/save}" method="post">
+		<form th:object="${book}" th:action="@{/saveEditedBook}" method="post">
             <input type="hidden" th:field="*{id}" />
 		  	<label for="author">Author</label>
 			<input type="text" id="author" th:field="*{author}" />
+            <td th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Error</td>
 			<div style="clear: both; display: block; height: 10px;"></div>
 		  	<label for="title">Title</label>
 			<input type="text" id="title" th:field="*{title}" />
+            <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</td>
 			<div style="clear: both; display: block; height: 10px;"></div>
 		  	<label for="isbn">ISBN</label>
 			<input type="text" th:field="*{isbn}" />
 			<div style="clear: both; display: block; height: 10px;"></div>
             <label for="publicationYear">Year</label>
             <input type="text" id="publicationYear" th:field="*{publicationYear}" />
+            <td th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}">Error</td>
+			<label>Category</label>
+				<select th:field="*{kategoria}">
+					<option th:each="cat: ${categories}" th:value="${cat.categoryid}" th:text="${cat.name}">			
+					</option>
+				</select>
 			<input type="submit" value="Save"></input>
 		</form>
 	</div>
+	<a href="/booklist" class="btn btn-info">Back to booklist</a>
 </body>
 </html>

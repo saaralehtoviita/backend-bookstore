@@ -5,28 +5,65 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
+
+
+//id-luodaan automaattisesti, eikä sitä siksi käytetä konstruktorissa (.AUTO osaa luoda id:n tietokannan vaatimusten perusteella)
+//@Table(name="kirja") voidaan määritellä taulujen nimet tietokannan puolella
+//luokkaan voidaan suoraan asettaa validointiarvoja
+//luo olion tietokantaan, tämä annotaatio pakollinen:
 @Entity
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotEmpty(message = "Title cannot be empty.")
+    @Size(min= 1, max= 250)
     private String title;
+
+    @NotEmpty(message = "Author cannot be empty")
+    @Size(min= 1, max= 250)
     private String author;
+
+    @Min(value = 0, message = "Publishing year cannot be negative or null")
     private int publicationYear;
+
     private String isbn;
     private double price;
 
+    //monta kirjaa yhtä kategoriaa kohden 
+    @ManyToOne
+    @JoinColumn(name = "categoryid") //categoryid tietokannassa oleva fk
+    public Category kategoria;
+
+    //konstruktori ilman parametrejä
     public Book() {
         
     }
 
+    //konstruktori ilman kategoriaa
     public Book(String title, String author, int publicationYear, String isbn, double price) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
         this.isbn = isbn;
         this.price = price;
+    }
+
+    //konstruktori kategorian kanssa
+    public Book(String title, String author, int publicationYear, String isbn, double price, Category kategoria) {
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+        this.isbn = isbn;
+        this.price = price;
+        this.kategoria = kategoria;
     }
     
     public Long getId() {
@@ -77,9 +114,22 @@ public class Book {
         this.price = price;
     }
 
+    public Category getKategoria() {
+        return kategoria;
+    }
+
+    public void setKategoria(Category kategoria) {
+        this.kategoria = kategoria;
+    }
+
     @Override
     public String toString() {
-        return "Book [id=" + id + ", title=" + title + ", author=" + author + ", publicationYear=" + publicationYear
+        if (this.kategoria != null) 
+            return "Book [id=" + id + ", title=" + title + ", author=" + author + ", publicationYear=" + publicationYear
+                + ", isbn=" + isbn + ", price=" + price + ", category=" + kategoria + "]";
+        else 
+            return "Book [id=" + id + ", title=" + title + ", author=" + author + ", publicationYear=" + publicationYear
                 + ", isbn=" + isbn + ", price=" + price + "]";
     }
+
 }

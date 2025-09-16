@@ -9,8 +9,12 @@ import org.springframework.context.annotation.Bean;
 
 import backend.bookstore.domain.Book;
 import backend.bookstore.domain.BookstoreRepository;
+import backend.bookstore.domain.Category;
+import backend.bookstore.domain.CategoryRepository;
 
+//tämä luokka on sovelluksen käynnistävä luokka (main-metodi)
 
+//pakollinen annotaatio, jotta spring boot tunnistaa: 
 @SpringBootApplication
 public class BookstoreApplication {
 
@@ -20,23 +24,35 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 
+	//alustaa tietokannan
 	@Bean
-	public CommandLineRunner bookstCommandLineRunner(BookstoreRepository repository) {
+	public CommandLineRunner bookstCommandLineRunner(BookstoreRepository bookRepository, CategoryRepository categoryRepository) {
 		return (args) -> {
+			//luodaan kategorioita
+
+			log.info("creating categories");
+			Category thriller = categoryRepository.save(new Category("thriller"));
+			Category fantasy = categoryRepository.save(new Category("fantasy"));
+			Category music = categoryRepository.save(new Category("music"));
+			Category children = categoryRepository.save(new Category("children"));
+
+
+
 			//luodaan kirjat ja tallennetaan kirjat h2-tietokantaan
 			log.info("saving a few books");
-			repository.save(new Book("Spindeln", "Lars Kepler", 2022, "978-91-0-016711-0", 15.95));
-			repository.save(new Book("Kaninjägaren", "Lars Kepler", 2016, "978-91-0-013677-2", 13.95));
-			repository.save(new Book("Harry Potter ja kirottu lapsi", "J.K. Rowling", 2016, "978-951-31-9276-1", 21.85));
+			bookRepository.save(new Book("Spindeln", "Lars Kepler", 2022, "978-91-0-016711-0", 15.95, thriller));
+			bookRepository.save(new Book("Kaninjägaren", "Lars Kepler", 2016, "978-91-0-013677-2", 13.95, thriller));
+			bookRepository.save(new Book("Harry Potter ja kirottu lapsi", "J.K. Rowling", 2016, "978-951-31-9276-1", 21.85, fantasy));
+			bookRepository.save(new Book("Karhuherra Paddingtonin puutarha", "Michael Bond", 1973, "951-0-00699-8", 8.5, children));
 
 			log.info("fetch all books");
-			for (Book book : repository.findAll()) {
+			for (Book book : bookRepository.findAll()) {
 				log.info(book.toString());
 			}
 			
 			//oman repository-rajapinnan metodin testausta: 
 			log.info("search all books where author is Lars Kepler");
-			for (Book b : repository.findByAuthor("Lars Kepler")) {
+			for (Book b : bookRepository.findByAuthor("Lars Kepler")) {
 				log.info(b.toString());
 			}
 		};
