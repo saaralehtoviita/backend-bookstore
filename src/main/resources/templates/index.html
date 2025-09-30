@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booklist index page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" th:href="@{/css/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/css/js/bootstrap.min.css}" />
+</head>
+<body class="ml-4">
+	<h1>Main page</h1>
+    <p>Welcome to the Bookstore-application <i sec:authentication="name"></i>!</p>
+    <a href="/booklist" class="btn btn-success">See all books as list</a> <br>  
+    <a class ="btn btn-success mt-3" href="/addBook">Go to Add Book-page</a> <br>
+    <a href="/categorylist" class="btn btn-success mt-3">See all existing categories</a>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out" class="btn btn-danger mt-3"/>
+    </form>
+
+</body>
+</html>

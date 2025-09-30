@@ -47,10 +47,9 @@ public class BookController {
         this.repository = repository;
     } */
 
-    @ResponseBody
-    @GetMapping("/index") //http://localhost:8080/index 
-    public String greeting() {
-        return "Tervetuloa kirjakauppaan, sovellus näyttää toimivan!";
+    @RequestMapping("/index") //http://localhost:8080/index 
+    public String indexPage() {
+        return "index";
     }
 
     //listataan kaikki kirjat
@@ -58,6 +57,13 @@ public class BookController {
     public String bookList(Model model) {
         model.addAttribute("books", repository.findAll()); //books välittyy templateen, pitää olla sama kun html-tiedostossa
         return "booklist";
+    }
+
+    //listataan kaikki kategoriat
+    @RequestMapping("/categorylist")
+    public String categorylist(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "categorylist";
     }
 
     //kirjan lisääminen

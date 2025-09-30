@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 
 import backend.bookstore.domain.Book;
 import backend.bookstore.domain.BookstoreRepository;
+import backend.bookstore.domain.BookstoreUser;
+import backend.bookstore.domain.BookstoreUserRepository;
 import backend.bookstore.domain.Category;
 import backend.bookstore.domain.CategoryRepository;
 
@@ -26,7 +28,7 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 
 	//alustaa tietokannan
 	@Bean
-	public CommandLineRunner bookstCommandLineRunner(BookstoreRepository bookRepository, CategoryRepository categoryRepository) {
+	public CommandLineRunner bookstCommandLineRunner(BookstoreRepository bookRepository, CategoryRepository categoryRepository, BookstoreUserRepository userRepository) {
 		return (args) -> {
 			//luodaan kategorioita
 
@@ -45,6 +47,14 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 			bookRepository.save(new Book("Harry Potter ja kirottu lapsi", "J.K. Rowling", 2016, "978-951-31-9276-1", 21.85, fantasy));
 			bookRepository.save(new Book("Karhuherra Paddingtonin puutarha", "Michael Bond", 1973, "951-0-00699-8", 8.5, children));
 
+			//luodaan käyttäjät ja tallenetaan tietokantaan
+			log.info("saving users");
+			BookstoreUser user1 = new BookstoreUser("user", "$2a$10$OigcyiZvjaOWJtoTe6WW6u3pNafFLCdxGMTEtuvvUyhg1AyHHNMRe", "USER");
+			BookstoreUser user2 = new BookstoreUser("admin", "$2a$10$xEOX0/xeBWMLkkfqNACJnukTaXe3tdF2JacCLKjMXDtgzHBeF9X4i", "ADMIN");
+			userRepository.save(user1);
+			userRepository.save(user2);
+
+
 			log.info("fetch all books");
 			for (Book book : bookRepository.findAll()) {
 				log.info(book.toString());
@@ -54,6 +64,11 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 			log.info("search all books where author is Lars Kepler");
 			for (Book b : bookRepository.findByAuthor("Lars Kepler")) {
 				log.info(b.toString());
+			}
+
+			log.info("fetching all users");
+			for (BookstoreUser u: userRepository.findAll()) {
+				log.info(u.getUsername());
 			}
 		};
 	}

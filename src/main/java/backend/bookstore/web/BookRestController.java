@@ -1,7 +1,9 @@
 package backend.bookstore.web;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +59,12 @@ public class BookRestController {
             .orElse(null);
     }
 
+    //kirjan etsintä authorin perusteella
+    @GetMapping("/books/author/{author}")
+    public List<Book> getBookByAuthor(@PathVariable("author") String author) {
+        return bRepository.findByAuthor(author);
+    }
+
     //kirjan lisääminen
     //testattu postmanin avulla; sovelluksen kautta lisätään siis JSON-formaatissa oleva olio books-enddpointille
     @PostMapping("books")
@@ -65,9 +73,13 @@ public class BookRestController {
     }
 
     //kirjan editoiminen
-    @PostMapping("books/edit")
-    public Book editBook(@RequestBody Book editedBook) {
-        Book book = bRepository.findById(editedBook.getId()).orElse(null);
+    //localhost:8080/books/2 PUT komento editoi id:llä 2 löytyvän kirjaa
+    @PutMapping("/books/{id}")
+    public Book editBook(@RequestBody Book editedBook, @PathVariable Long id) {
+        editedBook.setId(id);
+        return bRepository.save(editedBook);
+    }
+/*         Book book = bRepository.findById(editedBook.getId()).orElse(null);
         if (book != null) {
             book.setTitle(editedBook.getTitle());
             book.setAuthor(editedBook.getAuthor());
@@ -77,5 +89,16 @@ public class BookRestController {
             return bRepository.save(book);
         }
         return null;
-    }    
+    } */
+
+
+    //kirjan poistaminen id:n perusteella
+    //localhost:8080/books/2 DELETE komento poistaa id:llä 2 löytyvän kirjan
+    //palauttaa uuden bRepositoryn josta poistettu kyseinen kirja
+    @DeleteMapping("/books/{id}")
+    public List<Book> deleteBook(@PathVariable Long id) {
+        bRepository.deleteById(id);
+        return bRepository.findAll();
+    }
+    
 }

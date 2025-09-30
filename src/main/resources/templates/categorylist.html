@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booklist main page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" th:href="@{/css/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/css/js/bootstrap.min.css}" />
+</head>
+<body class="ml-4">
+	<h1>List of Categories</h1>
+		<!-- categories tulee kontrollerluokasta, nimien täytyy olla vastaavat! -->
+    	<ul class="mt-4" th:each = "category : ${categories}">
+    		<li th:text="${#strings.capitalize(category.name)}"></li>	
+        </ul>
+
+</body>
+</html>
