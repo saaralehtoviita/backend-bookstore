@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Booklist main page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -27,10 +27,15 @@
             <td th:text="${book.publicationYear}"></td>
 			<td th:text="${book.kategoria.name}"></td>
 
- 			<td><a class ="btn btn-danger" th:href="@{/deleteBook/{id}(id=${book.id})}">Delete</a></td>
+			<!--thymeleaf securitylla piilotetaan delete-toiminto muilta kun admin-tason käyttäjiltä-->
+			<!--täytyy myös määritellä metoditasolla!-->
+ 			<td sec:authorize="hasAuthority ('ADMIN')"><a class ="btn btn-danger" th:href="@{/deleteBook/{id}(id=${book.id})}">Delete</a></td>
 			<td><a class ="btn btn-info" th:href="@{/editBookWithValidation/{id}(id=${book.id})}">Edit</a></td>		
     	</tr>
      </table>
 	 <a class ="btn btn-success" href="/addBook">Add Book</a>
+	<form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out" class="btn btn-danger mt-3"/>
+    </form>
 </body>
 </html>

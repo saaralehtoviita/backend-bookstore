@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+//tässä luokassa määritellään URL-tasoiset security oikeudet
 @Configuration
+//metoditasoiset security-konfiguaariot annotaatio 
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 

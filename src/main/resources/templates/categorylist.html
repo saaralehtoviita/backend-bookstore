@@ -13,6 +13,9 @@
     	<ul class="mt-4" th:each = "category : ${categories}">
     		<li th:text="${#strings.capitalize(category.name)}"></li>	
         </ul>
+		<form th:action="@{/logout}" method="post">
+        	<input type="submit" value="Sign Out" class="btn btn-danger mt-3"/>
+    	</form>
 
 </body>
 </html>

@@ -4,6 +4,7 @@ package backend.bookstore.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 //vastaa selaimelta tuleviin HTTP-pyyntöihin
 //palauttaa Thymeleafin avulla HTML-sivun tai datan
 //käyttää BookstoreRepository-rajapointaa tietokantatoimintoihin
+//tänne määritellään myös metoditasoisia security-konfiguraatioita 
+//eli eri tasoisille käyttäjille voi olla erilaisia toimintoja käytössä
 //tämä annotaatio vaaditaan, jotta spring boot tunnistaa:
 @Controller
 public class BookController {
@@ -78,7 +81,9 @@ public class BookController {
     //kirjan poistaminen käynnistyy booklist.html-sivulta
     //delete-painike käynnistää 
     //urlista parametrinä id-arvo, jonka perusteella repositorysta (deleteById) haetaan poistettava kirja
+    //preauthorize-annotaatio - vain admin-tasoiset käyttäjät voivat poistaa kirjoja  
     @RequestMapping("/deleteBook/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')") //tähän hasRole, mutta H2 kanssa hasAuthority
     public String deleteBook(@PathVariable Long id) {
         repository.deleteById(id);
         return "redirect:/booklist";

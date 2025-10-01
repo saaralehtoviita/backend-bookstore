@@ -42,5 +42,8 @@
 		</form>
 	</div>
 	<a href="/booklist" class="btn btn-info">Back to booklist</a>
+	<form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out" class="btn btn-danger mt-3"/>
+    </form>
 </body>
 </html>
