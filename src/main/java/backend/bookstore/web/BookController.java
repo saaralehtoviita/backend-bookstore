@@ -8,15 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.*;
 import backend.bookstore.BookstoreApplication;
 import backend.bookstore.domain.Book;
 import backend.bookstore.domain.BookstoreRepository;
@@ -25,7 +17,6 @@ import backend.bookstore.domain.Category;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 //vastaa selaimelta tuleviin HTTP-pyyntöihin
@@ -56,21 +47,21 @@ public class BookController {
     }
 
     //listataan kaikki kirjat
-    @RequestMapping("/booklist")
+    @GetMapping("/booklist")
     public String bookList(Model model) {
         model.addAttribute("books", repository.findAll()); //books välittyy templateen, pitää olla sama kun html-tiedostossa
         return "booklist";
     }
 
     //listataan kaikki kategoriat
-    @RequestMapping("/categorylist")
+    @GetMapping("/categorylist")
     public String categorylist(Model model) {
         model.addAttribute("categories", categoryRepository.findAll());
         return "categorylist";
     }
 
-    //kirjan lisääminen
-    @RequestMapping("/addBook")
+    //kirjan lisääminen, ei muuta dataa vaan täyttää lomakkeen
+    @GetMapping("/addBook")
     public String addBook(Model model){
     	model.addAttribute("book", new Book());
         model.addAttribute("categories", categoryRepository.findAll());
@@ -82,21 +73,21 @@ public class BookController {
     //delete-painike käynnistää 
     //urlista parametrinä id-arvo, jonka perusteella repositorysta (deleteById) haetaan poistettava kirja
     //preauthorize-annotaatio - vain admin-tasoiset käyttäjät voivat poistaa kirjoja  
-    @RequestMapping("/deleteBook/{id}")
+    @DeleteMapping("/deleteBook/{id}")
     @PreAuthorize("hasAuthority('ADMIN')") //tähän hasRole, mutta H2 kanssa hasAuthority
     public String deleteBook(@PathVariable Long id) {
         repository.deleteById(id);
         return "redirect:/booklist";
     }
 
-    //kirjan editoiminen
+    //kirjan editoiminen, metodi täyttää lomakkeen mutta ei vielä tallenna tietoja
     //kirjaan editoimiseen päädytään booklist.html-sivulta
     //edit painike käynnistää 
     //urlista saadan parametrinä id-arvo, jolla tallennetaan book-oliolle tiedot (repositorysta findById metodilla etsitään)
     //tallennetaan olion tiedot modelille, ja välitetään thymeleafille book-muuttujana
     //endpointtina editbook -> editbook.html sivulle jossa lomake esitäytetyillä kirjan tiedoilla
     //save painike ohjaa save-metodiin (ei tarvita uutta, käytetään samaa kun addbookin kanssa)
-    @RequestMapping("/editBookWithValidation/{id}") 
+    @GetMapping("/editBookWithValidation/{id}") 
     public String editBook(@PathVariable Long id, Model model) {
         //Book book = repository.findById(id).orElse(null);
         model.addAttribute("book", repository.findById(id).orElse(null));
