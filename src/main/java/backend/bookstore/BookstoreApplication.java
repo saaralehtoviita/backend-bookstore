@@ -37,6 +37,7 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 			Category fantasy = categoryRepository.save(new Category("fantasy"));
 			Category music = categoryRepository.save(new Category("music"));
 			Category children = categoryRepository.save(new Category("children"));
+			Category technology = categoryRepository.save(new Category("technology"));
 
 
 

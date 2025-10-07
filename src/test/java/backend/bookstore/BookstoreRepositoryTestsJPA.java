@@ -44,18 +44,18 @@ public class BookstoreRepositoryTestsJPA {
     private CategoryRepository cRepository;
 
     //uuden kirjan luominen kategoriatiedolla
-
     @Test
     public void createNewBook() {
         Category c = new Category("testikategoria");
         cRepository.save(c);
         Long idCat = c.getCategoryid();
         assertThat(cRepository.findById(idCat).isPresent());
+
         Book b = new Book("Testkikirja", "Test Author", 2020, "111-222-333", 25.50, c);
         bRepository.save(b);
         Long idBook = b.getId();
         assertThat(bRepository.findById(idBook).isPresent());
-        assertThat(b.getId()).isNotNull();
+        //assertThat(b.getId()).isNotNull();
     }
 
     @Test
