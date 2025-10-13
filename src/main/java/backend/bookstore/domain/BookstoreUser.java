@@ -5,21 +5,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="app_user")
 public class BookstoreUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //hibernate osaa tutkia mikä on tietokannan id-generointitapa
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "app_password", nullable = false)
     private String passwordHashed;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "app_role", nullable = false)
     private String role;
 
     //tyhjä konstruktori

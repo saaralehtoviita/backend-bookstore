@@ -71,7 +71,7 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 			for (BookstoreUser u: userRepository.findAll()) {
 				log.info(u.getUsername());
 			}
-		}; */
-	}
+		}; 
+	}*/
 
 }

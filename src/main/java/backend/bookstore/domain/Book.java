@@ -1,12 +1,14 @@
 package backend.bookstore.domain;
 
 import jakarta.annotation.Generated;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -18,6 +20,7 @@ import jakarta.validation.constraints.Size;
 //luokkaan voidaan suoraan asettaa validointiarvoja
 //luo olion tietokantaan, tämä annotaatio pakollinen:
 @Entity
+@Table(name="book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +35,7 @@ public class Book {
     private String author;
 
     @Min(value = 0, message = "Publishing year cannot be negative or null")
+    @Column(name="publication_year")
     private int publicationYear;
 
     private String isbn;
@@ -40,6 +44,7 @@ public class Book {
     //monta kirjaa yhtä kategoriaa kohden 
     @ManyToOne
     @JoinColumn(name = "categoryid") //categoryid tietokannassa oleva fk
+    @Column(name="category_id")
     public Category kategoria;
 
     //konstruktori ilman parametrejä
