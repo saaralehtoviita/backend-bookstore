@@ -27,7 +27,7 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 	}
 
 	//alustaa tietokannan
-	@Bean
+/* 	@Bean
 	public CommandLineRunner bookstCommandLineRunner(BookstoreRepository bookRepository, CategoryRepository categoryRepository, BookstoreUserRepository userRepository) {
 		return (args) -> {
 			//luodaan kategorioita
@@ -71,7 +71,7 @@ private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.c
 			for (BookstoreUser u: userRepository.findAll()) {
 				log.info(u.getUsername());
 			}
-		};
+		}; */
 	}
 
 }
