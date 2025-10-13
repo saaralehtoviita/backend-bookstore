@@ -23,7 +23,7 @@ import jakarta.validation.constraints.Size;
 @Table(name="book")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "Title cannot be empty.")
@@ -43,8 +43,7 @@ public class Book {
 
     //monta kirjaa yhtä kategoriaa kohden 
     @ManyToOne
-    @JoinColumn(name = "categoryid") //categoryid tietokannassa oleva fk
-    @Column(name="category_id")
+    @JoinColumn(name = "category_id") //categoryid tietokannassa oleva fk
     public Category kategoria;
 
     //konstruktori ilman parametrejä

@@ -30,8 +30,13 @@
 
 			<!--thymeleaf securitylla piilotetaan delete-toiminto muilta kun admin-tason käyttäjiltä-->
 			<!--täytyy myös määritellä metoditasolla!-->
- 			<td sec:authorize="hasAuthority ('ADMIN')"><a class ="btn btn-danger" th:href="@{/deleteBook/{id}(id=${book.id})}">Delete</a></td>
-			<td><a class ="btn btn-info" th:href="@{/editBookWithValidation/{id}(id=${book.id})}">Edit</a></td>		
+			<!--hasRole = postgre, hasAuthority = H2-->
+ 			<td sec:authorize="hasAuthority('ADMIN')">
+				<form th:action="@{/deleteBook/{id}(id=${book.id})}" method="post">
+					<button type="submit" class="btn btn-danger">Delete</button>
+				</form>
+			</td>
+			<td><a class ="btn btn-info" th:href="@{/editBookWithValidation/{id}(id=${book.id})}">Edit</form></td>		
     	</tr>
      </table>
 	 <a class ="btn btn-success" href="/addBook">Add Book</a>

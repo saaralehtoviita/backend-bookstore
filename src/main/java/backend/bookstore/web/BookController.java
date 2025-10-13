@@ -73,8 +73,9 @@ public class BookController {
     //delete-painike käynnistää 
     //urlista parametrinä id-arvo, jonka perusteella repositorysta (deleteById) haetaan poistettava kirja
     //preauthorize-annotaatio - vain admin-tasoiset käyttäjät voivat poistaa kirjoja  
-    @DeleteMapping("/deleteBook/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')") //tähän hasRole, mutta H2 kanssa hasAuthority
+    @PostMapping("/deleteBook/{id}")
+    //@PreAuthorize("hasAuthority('ADMIN')") //tähän hasRole, mutta H2 kanssa hasAuthority
+    @PreAuthorize("hasAuthority('ADMIN')") //tähän hasRole, H2 kanssa hasAuthority
     public String deleteBook(@PathVariable Long id) {
         repository.deleteById(id);
         return "redirect:/booklist";
